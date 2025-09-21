@@ -90,12 +90,15 @@ export async function getBlogPost(slug: string) {
 export async function getCategories() {
   const path = '/blog-posts';
   const urlParamsObject = {
-    'fields': ['category'],
+    'fields': 'category', // Changed from ['category'] to 'category' to match Record<string, string>
     'pagination[limit]': '-1',
   };
 
   const response = await fetchAPI({ path, urlParamsObject });
-  const categories = [...new Set(response.data.map((post: any) => post.attributes.category))];
+  // Ensure categories is an array before using Set
+  const categories = response.data && Array.isArray(response.data)
+    ? [...new Set(response.data.map((post: any) => post.attributes.category).filter(Boolean))]
+    : [];
   return categories;
 }
 
