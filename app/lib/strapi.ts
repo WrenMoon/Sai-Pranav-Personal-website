@@ -90,7 +90,7 @@ export async function getBlogPost(slug: string) {
 export async function getCategories() {
   const path = '/blog-posts';
   const urlParamsObject = {
-    'fields': 'category', // Changed from ['category'] to 'category' to match Record<string, string>
+    'fields': 'category',
     'pagination[limit]': '-1',
   };
 
@@ -100,6 +100,14 @@ export async function getCategories() {
     ? [...new Set(response.data.map((post: any) => post.attributes.category).filter(Boolean))]
     : [];
   return categories;
+}
+
+export async function getTags() {
+  const path = '/blog-posts';
+  const urlParamsObject = {
+    'fields': 'tags', // Changed from ['tags'] to 'tags' to match Record<string, string>
+    'pagination[limit]': '-1',
+  };
 }
 
 export async function getTags() {
